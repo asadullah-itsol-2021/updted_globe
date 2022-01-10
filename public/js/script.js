@@ -17,10 +17,10 @@ var Utils = {
         return window.innerWidth / window.innerHeight;
     }
 };
+var value = false
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
-/**
- * Renderer
- */
 var Renderer = (function () {
     var _Renderer = function () {
         var self = this;
@@ -35,7 +35,7 @@ var Renderer = (function () {
                 }
             };
         };
-
+        raycaster.setFromCamera( this.mouse, this.scene );
         var params = paramsDefault();
 
         this.init = function () {
@@ -151,6 +151,8 @@ var Camera = (function () {
                 params.perspectiveCamera.positionZ
             );
         };
+
+        
 
         this.updateAspect = function () {
             this.perspectiveCamera.aspect = Utils.windowRatio();
@@ -417,13 +419,27 @@ var Camera = (function () {
                                     positionX: 0,
                                     positionY: 0,
                                     positionZ: 150,
-                                    fov: 63,
+                                    fov: value ? 63 :13,
                                     near: 1,
                                     far: 8000
                                 }
                             };
                         };
 
+                        function onMouseMove( event ) {
+                            console.log("🚀 ~ file: script.js ~ line 429 ~ onMouseMove ~ event", event , value)
+                            value=true
+                            console.log("🚀 ~ file: script.js ~ line 429 ~ onMouseMove ~ event", event , value)
+
+                            // calculate mouse position in normalized device coordinates
+                            // (-1 to +1) for both components
+                        
+                            mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+                            mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+                        
+                        }
+
+                        window.addEventListener( 'click', onMouseMove, false );
                         var params = paramsDefault();
 
                         this.init = function () {
@@ -1473,7 +1489,7 @@ var Camera = (function () {
                                     flareCircleSizeMax: 70,
                                     lensFlares: [
                                         {
-                                            size: 1400,
+                                            size: 100,
                                             opacity: 1,
                                             distance: 0
                                         },
@@ -1726,6 +1742,8 @@ var Camera = (function () {
                     var _Scene = function () {
                         var self = this;
 
+                       
+                        
                         var paramsDefault = function () {
                             return {
                                 orbitControls: {
@@ -1736,6 +1754,8 @@ var Camera = (function () {
                         };
 
                         var params = paramsDefault();
+                    
+                        
 
                         this.init = function () {
                             this.scene = new THREE.Scene();
@@ -2470,7 +2490,7 @@ var Earth = (function (Cloud) {
             this.earthMesh = new THREE.Mesh(this.geometry, this.material);
             this.earthMesh.visible = params.visible;
 
-            this.earthMesh.add(Cloud.cloudMesh);
+            // this.earthMesh.add(Cloud.cloudMesh);
         };
 
         this.animate = function (delta) {
@@ -2783,7 +2803,7 @@ var Sun = (function () {
                 sunLight: {
                     visible: true,
                     color: COLOR_WHITE,
-                    intensity: 1.3,
+                    intensity: 0.3,
                     position: {
                         x: -380,
                         y: 240,
@@ -2805,41 +2825,41 @@ var Sun = (function () {
                             hd: ASSETS_PATH + "lens_flare_hexagon_256x256.jpg"
                         }
                     },
-                    flareCircleSizeMax: 70,
+                    flareCircleSizeMax: 30,
                     lensFlares: [{
-                        size: 1400,
+                        size: 800,
                         opacity: 1,
                         distance: 0
                     }, {
-                        size: 20,
+                        size: 0,
                         opacity: 0.4,
                         distance: 0.63
                     }, {
-                        size: 40,
+                        size: 0,
                         opacity: 0.3,
                         distance: 0.64
                     }, {
-                        size: 70,
+                        size: 0,
                         opacity: 0.8,
                         distance: 0.7
                     }, {
-                        size: 80,
+                        size: 0,
                         opacity: 0.7,
                         distance: 0.8
                     }, {
-                        size: 40,
+                        size: 0,
                         opacity: 0.4,
                         distance: 0.85
                     }, {
-                        size: 30,
+                        size: 0,
                         opacity: 0.4,
                         distance: 0.86
                     }, {
-                        size: 80,
+                        size: 0,
                         opacity: 0.3,
                         distance: 0.9
                     }, {
-                        size: 120,
+                        size: 0,
                         opacity: 0.4,
                         distance: 1
                     }]
@@ -3290,6 +3310,267 @@ var Sun_ = (function () {
 
     return new _Sun_();
 })();
+
+
+var Sun2_ = (function () {
+    var _Sun2_ = function () {
+        var self = this;
+
+        var paramsDefault = function () {
+            return {
+                imgDef: IMAGE_HD,
+                imgDefPrevious: undefined,
+                sunLight: {
+                    visible: true,
+                    color: COLOR_BLACKA,
+                    intensity: 1.3,
+                    position: {
+                        x: -500,
+                        y: 360,
+                        z: 200,
+                       
+                           
+                    }
+                },
+                sunLensFlare: {
+                    textures: {
+                        sun: {
+                            sd: ASSETS_PATH + "lens_flare_sun_512x512.jpg",
+                            hd: ASSETS_PATH + "lens_flare_sun_1024x1024.jpg"
+                        },
+                        circle: {
+                            sd: ASSETS_PATH + "lens_flare_circle_32x32.jpg",
+                            hd: ASSETS_PATH + "lens_flare_circle_64x64.jpg"
+                        },
+                        hexagon: {
+                            sd: ASSETS_PATH + "lens_flare_hexagon_128x128.jpg",
+                            hd: ASSETS_PATH + "lens_flare_hexagon_256x256.jpg"
+                        }
+                    },
+                    flareCircleSizeMax: 70,
+                    lensFlares: [{
+                        size: 100,
+                        opacity: 0.51,
+                        distance: 0
+                    }, {
+                        size: 0,
+                        opacity: 0.4,
+                        distance: 0.63
+                    }, {
+                        size: 0,
+                        opacity: 0.3,
+                        distance: 0.64
+                    }, {
+                        size: 0,
+                        opacity: 0.8,
+                        distance: 0.7
+                    }, {
+                        size: 0,
+                        opacity: 0.7,
+                        distance: 0.8
+                    }, {
+                        size: 0,
+                        opacity: 0.4,
+                        distance: 0.85
+                    }, {
+                        size: 0,
+                        opacity: 0.4,
+                        distance: 0.86
+                    }, {
+                        size: 0,
+                        opacity: 0.3,
+                        distance: 0.9
+                    }, {
+                        size: 0,
+                        opacity: 0.4,
+                        distance: 1
+                    }]
+                }
+            };
+        };
+
+        var params = paramsDefault();
+
+        this.init = function () {
+            this.textureLoader = new THREE.TextureLoader();
+            this.sunLight = new THREE.DirectionalLight(params.sunLight.color, params.sunLight.intensity);
+
+            this.sunLight.position.set(
+                params.sunLight.position.x,
+                params.sunLight.position.y,
+                params.sunLight.position.z
+            );
+
+            this.sunLight.visible = params.sunLight.visible;
+
+            this.createLensFlare();
+            this.disableRefreshTexture();
+        };
+
+        this.setParamImgDef = function (imgDef) {
+            params.imgDef = imgDef || paramsDefault().imgDef;
+        };
+
+        this.createLensFlare = function () {
+            this.sunLensFlare = this.getSunLensFlare();
+            this.sunLight.add(this.sunLensFlare);
+        };
+
+        this.getSunLensFlare = function () {
+            this.loadLensFlareTextures();
+
+            var sunLensFlare = new THREE.LensFlare(
+                this.getTextureByIndex(0),
+                params.sunLensFlare.lensFlares[0].size,
+                params.sunLensFlare.lensFlares[0].distance,
+                THREE.AdditiveBlending
+            );
+
+            return this.addLensFlareSunCirclesAndHexagons(sunLensFlare);
+        };
+
+        this.addLensFlareSunCirclesAndHexagons = function (sunLensFlare) {
+            for (var i = 1; i < params.sunLensFlare.lensFlares.length; i++) {
+                sunLensFlare.add(
+                    this.getTextureByIndex(i),
+                    params.sunLensFlare.lensFlares[i].size,
+                    params.sunLensFlare.lensFlares[i].distance,
+                    THREE.AdditiveBlending
+                );
+            }
+
+            return sunLensFlare;
+        };
+
+        this.getTextureByIndex = function (index) {
+            if (0 === index) {
+                return this.textureFlareSun;
+            }
+            return params.sunLensFlare.lensFlares[index].size < params.sunLensFlare.flareCircleSizeMax ?
+                this.textureFlareCircle :
+                this.textureFlareHexagon;
+        };
+
+        this.loadLensFlareTextures = function () {
+            this.textureFlareSun = this.textureLoader.load(params.sunLensFlare.textures.sun[params.imgDef]);
+            this.textureFlareCircle = this.textureLoader.load(params.sunLensFlare.textures.circle[params.imgDef]);
+            this.textureFlareHexagon = this.textureLoader.load(params.sunLensFlare.textures.hexagon[params.imgDef]);
+        };
+
+        this.refreshTextures = function (imgDef) {
+            this.setParamImgDef(imgDef);
+
+            if (this.doesRefreshTextureNecessary()) {
+                this.loadLensFlareTextures();
+
+                for (var i = 0; i < params.sunLensFlare.lensFlares.length; i++) {
+                    this.sunLensFlare.lensFlares[i].texture = this.getTextureByIndex(i);
+                }
+
+                this.disableRefreshTexture();
+            }
+        };
+
+        this.doesRefreshTextureNecessary = function () {
+            return params.imgDef !== params.imgDefPrevious;
+        };
+
+        this.disableRefreshTexture = function () {
+            params.imgDefPrevious = params.imgDef;
+        };
+
+        this.gui = {
+            params: {
+                colors: {}
+            },
+
+            reset: function () {
+                var _default = paramsDefault();
+
+                self.sunLight.visible = _default.sunLight.visible;
+                self.sunLight.intensity = _default.sunLight.intensity;
+                self.sunLight.color.setHex(_default.sunLight.color);
+
+                self.sunLight.position.x = _default.sunLight.position.x;
+                self.sunLight.position.y = _default.sunLight.position.y;
+                self.sunLight.position.z = _default.sunLight.position.z;
+
+                for (var i = 0; i < params.sunLensFlare.lensFlares.length; i++) {
+                    self.sunLensFlare.lensFlares[i].size = _default.sunLensFlare.lensFlares[i].size;
+                    self.sunLensFlare.lensFlares[i].opacity = _default.sunLensFlare.lensFlares[i].opacity;
+                    self.sunLensFlare.lensFlares[i].distance = _default.sunLensFlare.lensFlares[i].distance;
+                }
+
+                this.resetColorsHexString();
+
+                self.refreshTextures();
+            },
+
+            resetColorsHexString: function () {
+                this.params.colors.color = "#" + self.sunLight.color.getHexString();
+            },
+
+            add: function (gui) {
+                this.resetColorsHexString();
+
+                var folderSun = gui.addFolder("SUN");
+
+                folderSun
+                    .add(self.sunLight, "visible").listen();
+
+                var folderLight = folderSun.addFolder("Light");
+
+                folderLight
+                    .add(self.sunLight, "intensity", 0, 10).listen();
+
+                folderLight
+                    .addColor(this.params.colors, "color").listen()
+                    .onChange(function (color) {
+                        self.sunLight.color.setHex(color.replace("#", "0x"));
+                    });
+
+                var folderPosition = folderSun.addFolder("Position");
+
+                folderPosition
+                    .add(self.sunLight.position, "x", -2000, 2000).listen();
+
+                folderPosition
+                    .add(self.sunLight.position, "y", -2000, 2000).listen();
+
+                folderPosition
+                    .add(self.sunLight.position, "z", -2000, 2000).listen();
+
+                var folderLensFlares = folderSun.addFolder("LensFlares");
+
+                folderLensFlares
+                    .add(params, "imgDef", [IMAGE_SD, IMAGE_HD]).listen()
+                    .onChange(function (imgDef) {
+                        self.refreshTextures(imgDef);
+                    });
+
+                for (var i = 0; i < self.sunLensFlare.lensFlares.length; i++) {
+                    folderLensFlares
+                        .add(self.sunLensFlare.lensFlares[i], "size", 0, 2000).name(i + ". size").listen();
+
+                    folderLensFlares
+                        .add(self.sunLensFlare.lensFlares[i], "opacity", 0, 1).name(i + ". opacity").listen();
+
+                    folderLensFlares
+                        .add(self.sunLensFlare.lensFlares[i], "distance", -1, 1).name(i + ". distance").listen();
+                }
+
+                folderSun
+                    .add(this, "reset").name("RESET SUN");
+
+                return folderSun;
+            }
+        };
+
+        this.init();
+    };
+
+    return new _Sun2_();
+})();
 /**
  * Scene
  */
@@ -3308,18 +3589,57 @@ var Scene = (function () {
 
         var params = paramsDefault();
 
+
+        
         this.init = function () {
             this.scene = new THREE.Scene();
             this.scene.add(Earth.earthMesh);
             this.scene.add(Moon.pivot);
             this.scene.add(Sun.sunLight);
             this.scene.add(Sun_.sunLight);
-
+            this.scene.add(Sun2_.sunLight);
+            // var ctx = canvas.getContext('2d');
+            // ctx.font = 'italic 18px Arial';
+            // ctx.textAlign = 'center';
+            // ctx.textBaseline = 'middle';
+            // ctx.fillStyle = 'red';
+            // ctx.fillText('Your Text', 150, 50);
+            window.addEventListener( 'click', onMouseMove, false );
+            function onMouseMove( event ) {
+                console.log("🚀 ~ file: script.js ~ line 3609 ~ onMouseMove ~ event",event)
+                // console.log("🚀 ~ file: script.js ~ line 429 ~ onMouseMove ~ event")
+                // this.Scene.orbitControls.reset();
+//                 his.controls.enablePan  = true;
+//                 this.Scene.orbitControls.panSpeed = 2;
+// this.Scene.orbitControls.staticMoving = true;
+// this.Scene.orbitControls.update();
+                // this.inial();
+                // this.Camera.perspectiveCamera.position.x = 580
+                // this.Camera.perspectiveCamera.position.y = -500
+                // this.Camera.perspectiveCamera.position.z =150
+                
+                const coords = { x: this.Camera.perspectiveCamera.position.x, y: this.Camera.perspectiveCamera.position.y };
+                new  TWEEN.Tween(coords)
+                .to({ x: cube.position.x, y: cube.position.y })
+                .onUpdate(() =>
+                this.Camera.position.set(coords.x, coords.y,this.Camera.perspectiveCamera.position.z)
+                )
+                .start();
+                // this.Earth.earthMesh.visible=false
+                // Sun2_.sunLensFlare.lensFlares[0].distance=0.5
+                // calculate mouse position in normalized device coordinates
+                // (-1 to +1) for both components this.Earth
+            
+                mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+                mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+            
+            }
 
             Skymap.setSceneBgCubeTexture(this.scene);
 
             this.activeOrbitControls();
         };
+   
 
         this.activeOrbitControls = function () {
             this.orbitControls = new THREE.OrbitControls(
