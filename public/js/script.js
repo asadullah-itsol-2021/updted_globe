@@ -5,10 +5,16 @@ var
     IMAGE_SD = "sd",
     IMAGE_HD = "hd",
     COLOR_WHITE = 0xffffff,
+    COLOR_WHITE = 0xffffff,
+
     COLOR_BLACK = 0x000000,
     COLOR_BLACKA = 0x333333 ;
-
-
+    COLOR_GREEN = 0x91c8d9;
+    COLOR_Lighta =0xbdd745;
+COLOR_Lightb =0xf2f2f2;
+var hold = -1;
+var earthhold = -1;
+var sunhold = -1
 /**
  * Utils
  */
@@ -836,7 +842,7 @@ var Camera = (function () {
                                 },
                                 animate: {
                                     enabled: true,
-                                    rotationsYPerSecond: 0.01
+                                    rotationsYPerSecond: 0.03
                                 }
                             };
                         };
@@ -991,7 +997,7 @@ var Camera = (function () {
                                 imgDef: IMAGE_HD,
                                 imgDefPrevious: undefined,
                                 moonMesh: {
-                                    visible: true,
+                                    visible: false,
                                     position: {
                                         x: 0,
                                         y: 0,
@@ -1179,20 +1185,20 @@ var Camera = (function () {
                                 imgDefPrevious: undefined,
                                 sunLight: {
                                     visible: true,
-                                    color: COLOR_WHITE,
-                                    intensity: 1.3,
+                                    color: COLOR_Lightb,
+                                    intensity: 20,
                                     position: {
-                                        x: -300,
-                                        y: 20,
-                                        z: -1000
-                                    }
+                                      x: -380,
+                                      y: 300,
+                                      z: -1000,
+                                    },
                                 },
                                 sunLensFlare: {
                                     textures: {
-                                        sun: {
-                                            sd: ASSETS_PATH + "lens_flare_sun_512x512.jpg",
-                                            hd: ASSETS_PATH + "lens_flare_sun_1024x1024.jpg"
-                                        },
+                                      sun: {
+                                        sd: "https://i.ibb.co/kSnskLS/shutterstock-1468418717.png",
+                                        hd: "https://i.ibb.co/kSnskLS/shutterstock-1468418717.png",
+                                      },
                                         circle: {
                                             sd: ASSETS_PATH + "lens_flare_circle_32x32.jpg",
                                             hd: ASSETS_PATH + "lens_flare_circle_64x64.jpg"
@@ -1747,7 +1753,7 @@ var Camera = (function () {
                         var paramsDefault = function () {
                             return {
                                 orbitControls: {
-                                    autoRotate: true,
+                                    autoRotate: false,
                                     autoRotateSpeed: 0.07
                                 }
                             };
@@ -2271,8 +2277,8 @@ var Cloud = (function () {
                     opacity: 0.9,
                     alphaMap: {
                         
-                        sd: ASSETS_PATH + "earth_clouds_2048x1024.jpg",
-                        hd: ASSETS_PATH + "earth_clouds_2048x1024.jpg"
+                      sd:  "https://i.imgur.com/MeKgLts.jpg",
+                      hd: "https://i.imgur.com/MeKgLts.jpg",
                     },
                     bumpMap: {
                          
@@ -2441,30 +2447,35 @@ var Earth = (function (Cloud) {
                 material: {
                     wireframe: false,
                     map: {
-                        
-                        sd: ASSETS_PATH + "earth_map_2048x1024.jpg",
-                        hd: ASSETS_PATH + "earth_map_2048x1024.jpg"
+                      // sd: ASSETS_PATH + "earth_map_2048x1024.jpg",
+                      // hd: ASSETS_PATH + "earth_map_2048x1024.jpg",
+                      sd:"https://i.imgur.com/MeKgLts.jpg",
+                      hd:"https://i.imgur.com/MeKgLts.jpg"
                     },
                     bumpMap: {
-                        sd: ASSETS_PATH + "earth_bump_2048x1024.jpg",
-                        hd: ASSETS_PATH + "earth_bump_2048x1024.jpg"
+                      sd:"https://i.imgur.com/MeKgLts.jpg",
+                      hd:"https://i.imgur.com/MeKgLts.jpg"
+                      // sd: ASSETS_PATH + "earth_bump_2048x1024.jpg",
+                      // hd: ASSETS_PATH + "earth_bump_2048x1024.jpg",
                     },
-                    bumpScale: 0.45,
+                    bumpScale: 0,
                     specularMap: {
-                        sd: ASSETS_PATH + "earth_specular_2048x1024.jpg",
-                        hd: ASSETS_PATH + "earth_specular_2048x1024.jpg"
+                      sd:"https://i.imgur.com/MeKgLts.jpg",
+                      hd:"https://i.imgur.com/MeKgLts.jpg"
+                      // sd: ASSETS_PATH + "earth_specular_2048x1024.jpg",
+                      // hd: ASSETS_PATH + "earth_specular_2048x1024.jpg",
                     },
                     specular: 0x2d4ea0,
                     shininess: 6
                 },
                 geometry: {
-                    radius: 50,
+                    radius: 30,
                     widthSegments: 64,
                     heightSegments: 32
                 },
                 animate: {
                     enabled: true,
-                    rotationsYPerSecond: 0.01
+                    rotationsYPerSecond: 0.03
                 }
             };
         };
@@ -2613,7 +2624,7 @@ var Moon = (function (Earth) {
                 imgDef: IMAGE_SD,
                 imgDefPrevious: undefined,
                 moonMesh: {
-                    visible: true,
+                    visible: false,
                     position: {
                         x: 0,
                         y: 0,
@@ -2802,20 +2813,20 @@ var Sun = (function () {
                 imgDefPrevious: undefined,
                 sunLight: {
                     visible: true,
-                    color: COLOR_WHITE,
-                    intensity: 0.3,
+                    color: COLOR_Lightb,
+                    intensity: 10,
                     position: {
-                        x: -380,
-                        y: 240,
-                        z: -1000,
-                    }
+                      x: -380,
+                      y: 300,
+                      z: -1000,
+                    },
                 },
                 sunLensFlare: {
                     textures: {
-                        sun: {
-                            sd: ASSETS_PATH + "lens_flare_sun_512x512.jpg",
-                            hd: ASSETS_PATH + "lens_flare_sun_1024x1024.jpg"
-                        },
+                      sun: {
+                        sd: "https://i.ibb.co/kSnskLS/shutterstock-1468418717.png",
+                        hd: "https://i.ibb.co/kSnskLS/shutterstock-1468418717.png",
+                      },
                         circle: {
                             sd: ASSETS_PATH + "lens_flare_circle_32x32.jpg",
                             hd: ASSETS_PATH + "lens_flare_circle_64x64.jpg"
@@ -2827,7 +2838,7 @@ var Sun = (function () {
                     },
                     flareCircleSizeMax: 30,
                     lensFlares: [{
-                        size: 800,
+                        size: 100,
                         opacity: 1,
                         distance: 0
                     }, {
@@ -3322,70 +3333,77 @@ var Sun2_ = (function () {
                 imgDefPrevious: undefined,
                 sunLight: {
                     visible: true,
-                    color: COLOR_BLACKA,
-                    intensity: 1.3,
-                    position: {
-                        x: -500,
-                        y: 360,
-                        z: 200,
-                       
-                           
-                    }
+                    color:     COLOR_Lighta,
+          intensity:5,
+          position: {
+            x: 380,
+            y: -300,
+            z: 1000,
+          },
                 },
                 sunLensFlare: {
-                    textures: {
-                        sun: {
-                            sd: ASSETS_PATH + "lens_flare_sun_512x512.jpg",
-                            hd: ASSETS_PATH + "lens_flare_sun_1024x1024.jpg"
-                        },
-                        circle: {
-                            sd: ASSETS_PATH + "lens_flare_circle_32x32.jpg",
-                            hd: ASSETS_PATH + "lens_flare_circle_64x64.jpg"
-                        },
-                        hexagon: {
-                            sd: ASSETS_PATH + "lens_flare_hexagon_128x128.jpg",
-                            hd: ASSETS_PATH + "lens_flare_hexagon_256x256.jpg"
-                        }
+                  textures: {
+                    sun: {
+                      sd: "https://i.ibb.co/Jv0kPWR/moon.png",
+                      hd: "https://i.ibb.co/Jv0kPWR/moon.png",
                     },
-                    flareCircleSizeMax: 70,
-                    lensFlares: [{
-                        size: 100,
-                        opacity: 0.51,
-                        distance: 0
-                    }, {
-                        size: 0,
-                        opacity: 0.4,
-                        distance: 0.63
-                    }, {
-                        size: 0,
-                        opacity: 0.3,
-                        distance: 0.64
-                    }, {
-                        size: 0,
-                        opacity: 0.8,
-                        distance: 0.7
-                    }, {
-                        size: 0,
-                        opacity: 0.7,
-                        distance: 0.8
-                    }, {
-                        size: 0,
-                        opacity: 0.4,
-                        distance: 0.85
-                    }, {
-                        size: 0,
-                        opacity: 0.4,
-                        distance: 0.86
-                    }, {
-                        size: 0,
-                        opacity: 0.3,
-                        distance: 0.9
-                    }, {
-                        size: 0,
-                        opacity: 0.4,
-                        distance: 1
-                    }]
-                }
+                    circle: {
+                      sd: ASSETS_PATH + "lens_flare_circle_32x32.jpg",
+                      hd: ASSETS_PATH + "lens_flare_circle_64x64.jpg",
+                    },
+                    hexagon: {
+                      sd: ASSETS_PATH + "lens_flare_hexagon_128x128.jpg",
+                      hd: ASSETS_PATH + "lens_flare_hexagon_256x256.jpg",
+                    },
+                  },
+                  flareCircleSizeMax: 10,
+                  lensFlares: [
+                    {
+                      size: 100,
+                      opacity: 0.51,
+                      distance: -0.001            },
+                    {
+                      size: 0,
+                      opacity: 0.4,
+                      distance: 0.63,
+                    },
+                    {
+                      size: 0,
+                      opacity: 0.3,
+                      distance: 0.64,
+                    },
+                    {
+                      size: 0,
+                      opacity: 0.8,
+                      distance: 0.7,
+                    },
+                    {
+                      size: 0,
+                      opacity: 0.7,
+                      distance: 0.8,
+                    },
+                    {
+                      size: 0,
+                      opacity: 0.4,
+                      distance: 0.85,
+                    },
+                    {
+                      size: 0,
+                      opacity: 0.4,
+                      distance: 0.86,
+                    },
+                    {
+                      size: 0,
+                      opacity: 0.3,
+                      distance: 0.9,
+                    },
+                    {
+                      size: 0,
+                      opacity: 0.4,
+                      distance: 1,
+                    },
+                  ],
+                },
             };
         };
 
@@ -3581,7 +3599,7 @@ var Scene = (function () {
         var paramsDefault = function () {
             return {
                 orbitControls: {
-                    autoRotate: true,
+                    autoRotate: false,
                     autoRotateSpeed: 0.07
                 }
             };
@@ -3589,7 +3607,86 @@ var Scene = (function () {
 
         var params = paramsDefault();
 
+        window.addEventListener("click", onMouseMove, false);
+      window.addEventListener("click", onSunClick, false);
 
+
+      function onSunClick(event) {
+        console.log("🚀 ~ file: script.js ~ line 3835 ~ onSunClick ~ event",  event )
+        if(event.clientX >= 200 && event.clientX <= 260 && event.clientY >=170 && event.clientY <= 240 ){
+          sunhold = event.which
+          // this.Camera.lookAt(-100 ,0,0)
+        }       
+         
+          sunhold = event.which
+  
+  
+          // hold = event.which;
+          // // this.Earth.earthMesh.visible=false
+          // earthhold = event.which;
+  
+         
+        }
+       
+        function onMouseMove(event) {
+          console.log(
+            "🚀 ~ file: script.js ~ line 3779 ~ onMouseMove ~ event",
+            event
+          );
+  
+          hold = event.which;
+          // this.Earth.earthMesh.visible=false
+          earthhold = event.which;
+  
+          // this.Sun2_.sunLensFlare.lensFlares[0].z
+          // if( this.Sun2_.sunLensFlare.lensFlares[0].z === 0.5){
+          //   hold=false
+          // }  else {
+  
+          // }
+  
+          // this.Sun2_.sunLensFlare.lensFlares[0].hold = 1
+          // const coords = {
+          //   x: 580,
+          //   y: 480,
+          // };
+          // TWEEN.(coords)
+  
+          //   .to({
+          //     x: cube.position.x,
+          //     y: cube.position.y,
+          //   })
+          //   .onUpdate(() =>
+          //     this.Camera.position.set(
+          //       coords.x,
+          //       coords.y,
+          //       this.Camera.perspectiveCamera.position.z
+          //     )
+          //   )
+          //   .start();
+          // console.log("🚀 ~ file: script.js ~ line 429 ~ onMouseMove ~ event")
+          // this.Scene.orbitControls.reset();
+          //                 his.controls.enablePan  = true;
+          //                 this.Scene.orbitControls.panSpeed = 2;
+          // this.Scene.orbitControls.staticMoving = true;
+          // this.Scene.orbitControls.update();
+          // this.inial();\
+          //  this.Scene.orbitControls.staticMoving = true;
+  
+          // if(this.Camera.perspectiveCamera.position.z<=50 ){
+          //   hold =+ event.which
+          //   this.updateAll()
+          // }
+          // this.caera.perspectiveCamera.lerp= 0.1
+  
+          // this.Earth.earthMesh.visible=false
+          // Sun2_.sunLensFlare.lensFlares[0].distance=0.5
+          // calculate mouse position in normalized device coordinates
+          // (-1 to +1) for both components this.Earth
+  
+          mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
         
         this.init = function () {
             this.scene = new THREE.Scene();
@@ -3967,7 +4064,43 @@ var View = (function () {
             requestAnimationFrame(animate);
 
             delta = clock.getDelta();
+            switch(sunhold) {
+              case 1:
+                // console.log('this.Camera', this.Sun);
+              // this.Camera.perspectiveCamera.position.z += -0.5
+              // this.Earth.earthMesh.quaternion.x=0
+              // this.Earth.earthMesh.quaternion.z=0
+              // this.Camera.perspectiveCamera.position.x -= 0.5707971837140404
+              // this.Camera.perspectiveCamera.position.z -= 0.5707971837140404
 
+
+                // this.Sun.sunLensFlare.lensFlares[0].distance += 0.005
+                
+                
+                // this.Camera.perspectiveCamera.position.z -= 0.1
+              //  console.log('first',                 );
+              // this.Camera.perspectiveCamera.up.x -= 1  ,  this.Camera.perspectiveCamera.up.y -= 1  , this.Camera.perspectiveCamera.up.z -=1
+                // this.Earth.earthMesh.position.y +=0.2
+                // this.Sun.sunLensFlare.lensFlares[0].distance +=0.002
+                // console.log(`object`, this.Sun.sunLensFlare.lensFlares[0].distance)
+                if(this.Sun.sunLensFlare.lensFlares[0].distance > 0.49){
+           
+                  // if(this.Sun.sunLensFlare.lensFlares[0].size +=5)
+                this.Sun.sunLensFlare.lensFlares[0].size +=5
+    
+                if(this.Sun.sunLensFlare.lensFlares[0].size >= 300){
+                  sunhold=-1
+                  // console.log(`this.Sun.sunLensFlare.lensFlares[0].size`, this.Sun.sunLensFlare.lensFlares[0].size)
+                }
+    
+                }
+                // if(this.Sun.sunLensFlare.lensFlares[0].distance  )
+                // console.log(`object`,this.Earth.earthMesh, this.Camera.perspectiveCamera.position.z)
+                
+                // this.Sun.perspectiveCamera.position.z += 0.001;
+               break
+              
+            }
             Earth.animate(delta);
             Cloud.animate(delta);
             Moon.animate(delta);
